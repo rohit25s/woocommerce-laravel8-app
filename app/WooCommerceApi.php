@@ -1,6 +1,6 @@
 <?php
 namespace App;
-use Automattic\WooCommerce\Client;
+//use Automattic\WooCommerce\Client;
 use Automattic\WooCommerce\HttpClient\HttpClientException;
 use stdClass;
 use GuzzleHttp\Client;
@@ -12,17 +12,17 @@ class WooCommerceApi
     private $endpoint;
 
     private $data;
-//$headers = array(
-//   'Content-Type: application/json'
-);
 
-//$method = "POST";
-//$url = "http://localhost/Test/wc-api/v2/orders/123?oauth_consumer_key=ck_mykey&consumer_key=ck_mykey&consumer_secret=cs_mykey&oauth_timestamp=1505544895&oauth_nonce=9ecd49e80860e09ddaf91f148451532620976b8d&oauth_signature_method=HMAC-SHA256&oauth_signature=mysignature";
-//$Result = callApi($url, json_encode($data), $headers, $method);
+    private $headers;
+
+/*
+$method = "POST";
+$url = "http://localhost/Test/wc-api/v2/orders/123?oauth_consumer_key=ck_mykey&consumer_key=ck_mykey&consumer_secret=cs_mykey&oauth_timestamp=1505544895&oauth_nonce=9ecd49e80860e09ddaf91f148451532620976b8d&oauth_signature_method=HMAC-SHA256&oauth_signature=mysignature";
+$Result = callApi($url, json_encode($data), $headers, $method);
 
 echo '<pre>'; print_r($Result);
 
-
+*/
 
      /**
      * Build Woocommerce connection.
@@ -33,22 +33,13 @@ echo '<pre>'; print_r($Result);
     {
         try {
              // using guzzle
-             $this->data = new stdClass();
-             $data->fulfillment = new stdClass();
+            $this->data->data = new stdClass();
+            $this->data->fulfillment = new stdClass();
 
-$trackingUrl = "123456789";
-
-$shopUrl = "localhost/Test";
-$consumerKey = "cs_mykey";
-$consumerSecret = "ck_mykey";
-$orderId = "123";
-
-$subPath = "/wc-api/v2/orders/".$orderId;
-
-$data->fulfillment->tracking_url = $trackingUrl;
-$data->fulfillment->status = 'completed';
-
-/*
+            $this->headers = array(
+                'Content-Type: application/json'
+            );
+            /*
 
             $this->endpoint = config('woocommerce.store_url');
             $this->headers = [
@@ -69,10 +60,10 @@ $data->fulfillment->status = 'completed';
                     'timeout'           => config('woocommerce.timeout'),
                 ]
             );
+            */
         } catch (\Exception $e) {
              throw new \Exception($e->getMessage(), 1);
         }
-        */
     }
 
     public function getWc(){
@@ -101,7 +92,7 @@ $data->fulfillment->status = 'completed';
 
     public function get_payment_methods_all_orders(){
 
-    return $order->get_payment_method();
+    return $this->orders->get_payment_method();
     }
 
     public function sv_get_refunded_orders() {
