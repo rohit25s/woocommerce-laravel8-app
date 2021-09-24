@@ -14,7 +14,22 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in! You Don\'t have admin priviledges. Contact your administrator.') }}
+                    {{ __('You are logged in!') }} <br>
+
+                    @if (Route::has('login'))
+                        @auth
+                            <a href="{{ url('/list_orders') }}" class="text-lg-right dark:text-gray-400 underline">List WooCommerce Orders</a>
+                            <form method="GET" action="/export"><div class="ml-4 form-group row mb-0">
+                                @csrf
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Export') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        @endauth
+                    @endif
                 </div>
             </div>
         </div>
